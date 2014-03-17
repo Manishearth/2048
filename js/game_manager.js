@@ -43,7 +43,16 @@ GameManager.prototype.setup = function () {
   this.keepPlaying = false;
 
   if(localStorage.grid){
-    this.grid        = new Grid(this.size,JSON.parse(localStorage.grid));
+    
+    var cells=JSON.parse(localStorage.grid);
+    for (i in cells){
+      for(j in cells[i]){
+        if(cells[i][j]){
+          cells[i][j].__proto__=Tile.prototype;
+        }
+      }
+    }
+    this.grid        = new Grid(this.size,cells);
   }else{
     this.grid        = new Grid(this.size);
     // Add the initial tiles
