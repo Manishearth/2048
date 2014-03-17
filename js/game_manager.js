@@ -16,7 +16,7 @@ function GameManager(size, InputManager, Actuator, ScoreManager) {
 // Restart the game
 GameManager.prototype.restart = function () {
   this.actuator.continue();
-  this.setup();
+  this.setup(true);
 };
 
 // Keep playing after winning
@@ -34,7 +34,7 @@ GameManager.prototype.isGameTerminated = function () {
 };
 
 // Set up the game
-GameManager.prototype.setup = function () {
+GameManager.prototype.setup = function (bypass) {
 
 
   this.score       = 0;
@@ -42,7 +42,7 @@ GameManager.prototype.setup = function () {
   this.won         = false;
   this.keepPlaying = false;
 
-  if(localStorage.grid){
+  if(!bypass && localStorage.grid){
     
     var cells=JSON.parse(localStorage.grid);
     for (i in cells){
