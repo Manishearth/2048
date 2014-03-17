@@ -35,20 +35,33 @@ GameManager.prototype.isGameTerminated = function () {
 
 // Set up the game
 GameManager.prototype.setup = function () {
-  this.grid        = new Grid(this.size);
+
 
   this.score       = 0;
   this.over        = false;
   this.won         = false;
   this.keepPlaying = false;
 
-  // Add the initial tiles
-  this.addStartTiles();
-
+  if(localStorage.grid){
+    this.grid        = new Grid(this.size,JSON.parse(localStorage.grid));
+  }else{
+    this.grid        = new Grid(this.size);
+    // Add the initial tiles
+    this.addStartTiles();
+  }
   // Update the actuator
   this.actuate();
 };
 
+GameManager.prototype.save=function(){
+  localStorage.grid=JSON.stringify(this.grid.cells);
+  
+}
+GameManager.prototype.clearSave=function(){
+  localStorage.removeItem('grid');
+  this.restart();
+  
+}
 // Set up the initial tiles to start the game with
 GameManager.prototype.addStartTiles = function () {
   for (var i = 0; i < this.startTiles; i++) {
